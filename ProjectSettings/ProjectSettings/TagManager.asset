@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Nedles
+  - GM
+  - checkpoints
+  - Arrows
+  - Ground
+  - Key
+  - Door
+  - Platform_UP
+  - Platform_DOWN
+  - Platform_RIGHT
+  - Platform_LEFT
+  - NeedlessOnGround
+  - RockDestr
+  - rock
+  - KM
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Ground
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Guns
+    uniqueID: 487027883
+    locked: 0
