@@ -43,18 +43,42 @@ public class HoleTrigger : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Player"))
         {
-            // Use the same death mechanism as other hazards
-            PlayerPos playerPos = collider.GetComponent<PlayerPos>();
-            if (playerPos != null)
+            playerController pC = collider.GetComponent<playerController>();
+            if (pC != null)
             {
-                playerPos.toDie = true;
+                // Find the main camera that is a child of the player
+                Camera mainCamera = pC.GetComponentInChildren<Camera>();
+                if (mainCamera != null)
+                {
+                    // Detach camera from player (move to root)
+                    mainCamera.transform.SetParent(null);
+                }
+                
+                // Disable player controls so they just fall
+                pC.enabled = false;
                 
                 // Spawn death effect if assigned
-                if (DeathEffect != null && playerPos.pC != null)
+                if (DeathEffect != null)
                 {
-                    Instantiate(DeathEffect, playerPos.pC.groundCheck.transform.position, playerPos.pC.groundCheck.transform.rotation);
+                    Instantiate(DeathEffect, pC.groundCheck.transform.position, pC.groundCheck.transform.rotation);
                 }
+                
+                // Start coroutine to reload scene after 1.5 seconds
+                StartCoroutine(ReloadSceneAfterDelay(1.5f));
             }
         }
+    }
+    
+    private IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        
+        // Damage player and reload scene
+        GameMaster gm = GameObject.FindGameObjectWithTag("GM")?.GetComponent<GameMaster>();
+        if (gm != null)
+        {
+            gm.DamagePlayer(1);
+        }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 }
