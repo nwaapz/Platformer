@@ -31,6 +31,12 @@ public class playerController : MonoBehaviour
     {
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameMaster>();
         r2d = GetComponent<Rigidbody2D>(); ///take 2d phisics
+        
+        // Initialize ground check and animation state
+        isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded);
+        animator.SetBool("fall", false);
+        animator.SetBool("isJumping", false);
+        animator.SetBool("Idle", true);
     }
 
     // Update is called once per frame
@@ -38,30 +44,36 @@ public class playerController : MonoBehaviour
     {
         move_x = Input.GetAxisRaw("Horizontal"); ///taked standart run axis LOCK TO BUTTONS
         r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y); ///run left right 
-        isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded); ///ground checker  
+        isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded); ///ground checker
+        
+        // Debug ground check
+       // Debug.Log($"[Ground Debug] isGround={isGround}, groundCheck.pos={groundCheck.position}, checkRadius={checkRadius}, layerMask={whatIsGrounded.value}");
     }
 
     public void Update()
     {
-        /// left controll
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        /// left controll (Arrow + WASD)
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {    
           run = true;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A))
         {
           run = false;
         }
 
-        ///right controll
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        ///right controll (Arrow + WASD)
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             run = true;
         }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
+        else if (Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D))
         {
             run = false;
         }
+        
+        // Debug trace for animation state
+      //  Debug.Log($"[Anim Debug] run={run}, isGround={isGround}, jump={jump}, move_x={move_x}");
 
         ///run animation and stay animation
         if (run == true && isGround == true)
@@ -121,8 +133,9 @@ public class playerController : MonoBehaviour
             animator.SetBool("Idle", false);
 
         }
-        else if (jump == false)
+        else if (jump == false && isGround == false)
         {
+            // Only show fall animation when actually in the air
             animator.SetBool("fall", true);
             animator.SetBool("isJumping", false);
         }
@@ -144,7 +157,11 @@ public class playerController : MonoBehaviour
         {
             animator.SetBool("isJumping", false);
             animator.SetBool("fall", false);
-            animator.SetBool("Idle", true);
+            // Only set Idle if not moving, let run animation handle it otherwise
+            if (run == false)
+            {
+                animator.SetBool("Idle", true);
+            }
             jumpsQ = 1;
         }
 

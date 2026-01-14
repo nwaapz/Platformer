@@ -3,7 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Ground
+  - KM
+  - Door
+  - Nedles
+  - Platform_RIGHT
+  - Key
+  - GM
+  - hole
+  - checkpoints
+  - Arrows
+  - NeedlessOnGround
+  - rock
   layers:
   - Default
   - TransparentFX
