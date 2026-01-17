@@ -17,9 +17,13 @@ public class go_scrip : MonoBehaviour
         
     }
     public void Restart() {
-        SceneManager.LoadScene(2);
+        if (LevelManager.Instance != null) {
+            LevelManager.Instance.ReloadCurrentLevel();
+        } else {
+            SceneManager.LoadScene(2); // Fallback
+        }
     }
     public void exitMenu() {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0); // Menu is always at index 0
     }
 }

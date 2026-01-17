@@ -73,6 +73,13 @@ public class HoleTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         
+        // Reset key count before reloading
+        KeyMaster km = GameObject.FindGameObjectWithTag("KM")?.GetComponent<KeyMaster>();
+        if (km != null)
+        {
+            km.TotalKeys = 0;
+        }
+        
         // Damage player and reload scene
         GameMaster gm = GameObject.FindGameObjectWithTag("GM")?.GetComponent<GameMaster>();
         if (gm != null)

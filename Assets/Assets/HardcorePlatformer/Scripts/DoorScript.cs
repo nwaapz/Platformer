@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DoorScript : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class DoorScript : MonoBehaviour
     public float timeAnim = -1.08f;
     private float timeCD;
     public GameObject enterButton;
+    
+    [Header("Level Transition")]
+    public float transitionDelay = 0.5f; // Delay before loading next level
+    private bool isTransitioning = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,8 +63,46 @@ public class DoorScript : MonoBehaviour
             doorOpened = true;
             enterButton.gameObject.SetActive(true);
         }
-        if (doorOpen == true) {
-            Debug.Log("Enter the room");
+        if (doorOpen == true && !isTransitioning) {
+            Debug.Log("Enter the room - Loading next level...");
+            StartCoroutine(TransitionToNextLevel());
+        }
+    }
+    
+    private IEnumerator TransitionToNextLevel()
+    {
+        isTransitioning = true;
+        
+        // Wait for transition delay (let door animation finish)
+        yield return new WaitForSeconds(transitionDelay);
+        
+        // Use LevelManager if available, otherwise fallback to build index
+        if (LevelManager.Instance != null)
+        {
+            // Save progress before loading next level
+            if (LevelManager.Instance.currentLevel != null && LevelManager.Instance.currentLevel.nextLevel != null)
+            {
+                LevelManager.Instance.SaveProgress(LevelManager.Instance.currentLevel.nextLevel.levelIndex);
+            }
+            LevelManager.Instance.LoadNextLevel();
+        }
+        else
+        {
+            // Fallback: load next scene by build index
+            int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+            
+            // Save progress using build index as fallback
+            PlayerPrefs.SetInt("HighestLevelReached", nextSceneIndex);
+            PlayerPrefs.Save();
+            
+            if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+            {
+                SceneManager.LoadScene(nextSceneIndex);
+            }
+            else
+            {
+                Debug.LogWarning("No next scene in build settings!");
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D col)

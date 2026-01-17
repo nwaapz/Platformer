@@ -14,5 +14,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/HardcorePlatformer/Scenes/SampleScene.unity
     guid: 540adcbd93e9a8b4e8063ca62cba637f
+  - enabled: 1
+    path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/1.unity
+    guid: 5736d5d63b9dcc147a633f9a1f6b0500
+  - enabled: 1
+    path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/2.unity
+    guid: 4517781e3e6219a48bb7b5a01fe06660
+  - enabled: 1
+    path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/3.unity
+    guid: 8b8bcae0a950b3a438ba49ce62cfccf1
+  - enabled: 1
+    path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/4.unity
+    guid: 7e5bf24dc45d4294b9577f76344bdafc
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
