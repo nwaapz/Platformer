@@ -7700,6 +7700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeedlesOnGround
       objectReference: {fileID: 0}
+    - target: {fileID: 6271243377888192899, guid: 07b2de9c71a6edd42bf76146c1e9a15e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6271243377888192902, guid: 07b2de9c71a6edd42bf76146c1e9a15e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.43

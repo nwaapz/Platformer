@@ -4187,6 +4187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NeedlesOnGround
       objectReference: {fileID: 0}
+    - target: {fileID: 6271243377888192899, guid: 07b2de9c71a6edd42bf76146c1e9a15e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6271243377888192902, guid: 07b2de9c71a6edd42bf76146c1e9a15e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.4799998
@@ -6554,7 +6558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
       propertyPath: m_Size.x
-      value: 2.9572072
+      value: 0.8923838
       objectReference: {fileID: 0}
     - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
       propertyPath: m_Size.y
@@ -6562,7 +6566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
       propertyPath: m_Offset.x
-      value: -0.02169776
+      value: -0.14031518
       objectReference: {fileID: 0}
     - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
       propertyPath: m_Offset.y

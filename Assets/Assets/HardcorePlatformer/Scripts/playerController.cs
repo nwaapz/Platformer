@@ -98,8 +98,8 @@ public class playerController : MonoBehaviour
 
         }
 
-        ///jump_controll
-        if (Input.GetKeyDown(KeyCode.Z) && jumpsQ > 0)
+        ///jump_controll (Z key or Space key)
+        if ((Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space)) && jumpsQ > 0)
         {
             r2d.linearVelocity = Vector2.up * jump_force;
             jumpTimeCounter = jumpTime;
@@ -108,11 +108,11 @@ public class playerController : MonoBehaviour
             Instantiate(jump_fx, groundCheck.transform.position, groundCheck.transform.rotation);
 
         }
-        else if (Input.GetKeyUp(KeyCode.Z))
+        else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.Space))
         {
             jump = false;
         }
-        if (Input.GetKey(KeyCode.Z) && jump == true)
+        if ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.Space)) && jump == true)
         {
             if (jumpTimeCounter > 0)
             {
