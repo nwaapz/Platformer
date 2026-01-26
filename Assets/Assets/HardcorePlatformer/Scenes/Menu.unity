@@ -541,6 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4881d650556b5d84891ab52d82cb461a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  continueButton: {fileID: 0}
 --- !u!4 &127755545
 Transform:
   m_ObjectHideFlags: 0
@@ -1265,6 +1266,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9ea14b38b5e09c54dada1f11ab7b8514, type: 2}
   - {fileID: 11400000, guid: 87e3bfab23b6fe64c9c13fb7c1bebb03, type: 2}
   - {fileID: 11400000, guid: 918a58bfa336e6b438985ace27a33260, type: 2}
+  - {fileID: 11400000, guid: 53c6bd5463653904fac13a58bb7061c1, type: 2}
 --- !u!4 &931977345
 Transform:
   m_ObjectHideFlags: 0

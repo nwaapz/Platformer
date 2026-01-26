@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 9652043}
   - component: {fileID: 9652042}
   - component: {fileID: 9652041}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -59427,8 +59427,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4867192388046137693, guid: 914da6498c55b0b45a8547667d2a682b, type: 3}
     - target: {fileID: 637539564, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
+      propertyPath: checkRadius
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 637539564, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
       propertyPath: whatIsGrounded.m_Bits
-      value: 1
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 637539565, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
       propertyPath: pC

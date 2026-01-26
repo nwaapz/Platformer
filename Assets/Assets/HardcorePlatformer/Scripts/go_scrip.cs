@@ -18,7 +18,7 @@ public class go_scrip : MonoBehaviour
     }
     public void Restart() {
         if (LevelManager.Instance != null) {
-            LevelManager.Instance.ReloadCurrentLevel();
+            LevelManager.Instance.LoadLevelByIndex(0);
         } else {
             SceneManager.LoadScene(2); // Fallback
         }

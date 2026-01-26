@@ -14,9 +14,12 @@ public class playerController : MonoBehaviour
     public bool jump;
     public bool run;
     public bool isGround;
+    private bool wasGrounded; // Track previous ground state
     private float jumpTimeCounter;
     public float jumpTime;
     public float jumpsQ;
+    public int maxJumps = 2; // Maximum jumps allowed (2 = double jump)
+    private float jumpCooldown = 0f; // Cooldown timer to ignore ground detection after jump
     public Rigidbody2D r2d;
     public SpriteRenderer sr;
     public Animator animator;
@@ -34,6 +37,8 @@ public class playerController : MonoBehaviour
         
         // Initialize ground check and animation state
         isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded);
+        wasGrounded = isGround; // Initialize wasGrounded to match starting ground state
+        jumpsQ = maxJumps; // Initialize jump count
         animator.SetBool("fall", false);
         animator.SetBool("isJumping", false);
         animator.SetBool("Idle", true);
@@ -44,14 +49,33 @@ public class playerController : MonoBehaviour
     {
         move_x = Input.GetAxisRaw("Horizontal"); ///taked standart run axis LOCK TO BUTTONS
         r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y); ///run left right 
-        isGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded); ///ground checker
-        
-        // Debug ground check
-       // Debug.Log($"[Ground Debug] isGround={isGround}, groundCheck.pos={groundCheck.position}, checkRadius={checkRadius}, layerMask={whatIsGrounded.value}");
     }
 
     public void Update()
     {
+        // Countdown jump cooldown
+        if (jumpCooldown > 0)
+        {
+            jumpCooldown -= Time.deltaTime;
+        }
+        
+        // Check ground state - ignore if in jump cooldown
+        bool overlapCheck = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded);
+        if (jumpCooldown > 0)
+        {
+            isGround = false; // Force not grounded during cooldown
+        }
+        else
+        {
+            isGround = overlapCheck && r2d.linearVelocity.y <= 0.1f;
+        }
+        
+        // Debug only when grounded
+        if (isGround)
+        {
+          //  Debug.Log($"[GROUNDED] jumpsQ={jumpsQ}, wasGrounded={wasGrounded}");
+        }
+        
         /// left controll (Arrow + WASD)
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {    
@@ -98,31 +122,18 @@ public class playerController : MonoBehaviour
 
         }
 
-        ///jump_controll (Z key or Space key)
-        if ((Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space)) && jumpsQ > 0)
+        ///jump_controll (Z key or Space key) - calls the same function as UI button
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.Space))
         {
-            r2d.linearVelocity = Vector2.up * jump_force;
-            jumpTimeCounter = jumpTime;
-            jumpsQ -= 1;
-            jump = true;
-            Instantiate(jump_fx, groundCheck.transform.position, groundCheck.transform.rotation);
-
+            JumpBut(true);
         }
         else if (Input.GetKeyUp(KeyCode.Z) || Input.GetKeyUp(KeyCode.Space))
         {
-            jump = false;
+            JumpBut(false);
         }
         if ((Input.GetKey(KeyCode.Z) || Input.GetKey(KeyCode.Space)) && jump == true)
         {
-            if (jumpTimeCounter > 0)
-            {
-                r2d.linearVelocity = Vector2.up * jump_force;
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                jump = false;
-            }
+            JumpBut(true);
         }
 
         ///check jump player or not
@@ -162,8 +173,13 @@ public class playerController : MonoBehaviour
             {
                 animator.SetBool("Idle", true);
             }
-            jumpsQ = 1;
+            // Only reset jumps when player just landed (was not grounded, now is grounded)
+            if (!wasGrounded)
+            {
+                jumpsQ = maxJumps;
+            }
         }
+        wasGrounded = isGround;
 
     }
     // button Left UI
@@ -200,8 +216,10 @@ public class playerController : MonoBehaviour
     /// button Jump UI
     public void JumpBut(bool jumpi)
     {
-        if (jumpi == true && jumpsQ > 0)
+        if (jumpi == true && jumpsQ > 0 && jump == false)
         {
+            // Start a new jump - only when not already jumping
+            print("new jump");
             Instantiate(jump_fx, groundCheck.transform.position, groundCheck.transform.rotation);
             jumpTime = 0.25f;
             jump_force = 12;
@@ -209,24 +227,29 @@ public class playerController : MonoBehaviour
             jumpTimeCounter = jumpTime;
             jumpsQ -= 1;
             jump = true;
+            wasGrounded = true;
+            isGround = false;
+            jumpCooldown = 0.2f; // Ignore ground detection for 0.2 seconds
         }
-        else if (jumpi == false)
+        else if (jumpi == true && jump == true)
         {
-            jump_force = 0;
-            jump = false;
-        }
-        if (jumpi == true && jump == true)
-        {
+            // Continue jump (variable height) - only when already jumping
             if (jumpTimeCounter > 0)
             {
+                /*print("double jump");
                 jump_force = 12;
                 r2d.linearVelocity = Vector2.up * jump_force;
-                jumpTimeCounter -= Time.deltaTime;
+                jumpTimeCounter -= Time.deltaTime;*/
             }
             else
             {
                 jump = false;
             }
+        }
+        else if (jumpi == false)
+        {
+            jump_force = 0;
+            jump = false;
         }
     }
     ///Check Check points true

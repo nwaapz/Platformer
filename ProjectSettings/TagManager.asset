@@ -16,11 +16,13 @@ TagManager:
   - Arrows
   - NeedlessOnGround
   - rock
+  - Platform_UP
+  - Platform_DOWN
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - ground
   - Water
   - UI
   - 
