@@ -79,10 +79,31 @@ public class DoorScript : MonoBehaviour
         // Use LevelManager if available, otherwise fallback to build index
         if (LevelManager.Instance != null)
         {
+            // Check if this is the final level (win condition)
+            bool isFinalLevel = LevelManager.Instance.currentLevel != null && 
+                                LevelManager.Instance.currentLevel.nextLevel == null;
+            
+            if (isFinalLevel)
+            {
+                // Stop timer on win
+                if (PlayTimeManager.Instance != null)
+                {
+                    PlayTimeManager.Instance.StopTimerOnWin();
+                }
+                Debug.Log("Congratulations! You completed the game!");
+                // Optionally load a victory/credits scene here
+            }
+            
             // Save progress before loading next level
             if (LevelManager.Instance.currentLevel != null && LevelManager.Instance.currentLevel.nextLevel != null)
             {
                 LevelManager.Instance.SaveProgress(LevelManager.Instance.currentLevel.nextLevel.levelIndex);
+                
+                // Save current play time for continuation
+                if (PlayTimeManager.Instance != null)
+                {
+                    PlayTimeManager.Instance.SaveCurrentTime();
+                }
             }
             LevelManager.Instance.LoadNextLevel();
         }
@@ -95,13 +116,19 @@ public class DoorScript : MonoBehaviour
             PlayerPrefs.SetInt("HighestLevelReached", nextSceneIndex);
             PlayerPrefs.Save();
             
-            if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+            // Check if this is the final level
+            if (nextSceneIndex >= SceneManager.sceneCountInBuildSettings)
             {
-                SceneManager.LoadScene(nextSceneIndex);
+                // Stop timer on win
+                if (PlayTimeManager.Instance != null)
+                {
+                    PlayTimeManager.Instance.StopTimerOnWin();
+                }
+                Debug.Log("Congratulations! You completed the game!");
             }
             else
             {
-                Debug.LogWarning("No next scene in build settings!");
+                SceneManager.LoadScene(nextSceneIndex);
             }
         }
     }

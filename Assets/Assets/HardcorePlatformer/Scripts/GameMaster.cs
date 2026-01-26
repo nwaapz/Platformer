@@ -54,6 +54,13 @@ public class GameMaster : MonoBehaviour
         }
         if (playerStats.Health == 0) {
             KM.TotalKeys = 0;  // Reset key count on death
+            
+            // Reset timer on game over
+            if (PlayTimeManager.Instance != null)
+            {
+                PlayTimeManager.Instance.ResetTimer();
+            }
+            
             SceneManager.LoadScene(1);
             Destroy(gameObject);
             PlayerDeath = true;

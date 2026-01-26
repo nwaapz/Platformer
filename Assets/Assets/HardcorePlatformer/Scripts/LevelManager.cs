@@ -54,6 +54,14 @@ public class LevelManager : MonoBehaviour
     public void ContinueGame()
     {
         int highestLevel = GetHighestLevelReached();
+        
+        // Load and resume play time tracker
+        if (PlayTimeManager.Instance != null)
+        {
+            PlayTimeManager.Instance.LoadSavedTime();
+            PlayTimeManager.Instance.StartTimer();
+        }
+        
         LoadLevelByIndex(highestLevel);
     }
     
@@ -62,6 +70,12 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void StartNewGame()
     {
+        // Reset and start play time tracker
+        if (PlayTimeManager.Instance != null)
+        {
+            PlayTimeManager.Instance.ResetTimer();
+            PlayTimeManager.Instance.StartTimer();
+        }
         LoadLevelByIndex(0);
     }
     
@@ -72,6 +86,13 @@ public class LevelManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(HIGHEST_LEVEL_KEY);
         PlayerPrefs.Save();
+        
+        // Also reset play time
+        if (PlayTimeManager.Instance != null)
+        {
+            PlayTimeManager.Instance.ResetTimer();
+        }
+        
         Debug.Log("Progress reset!");
     }
     

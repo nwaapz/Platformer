@@ -18,6 +18,9 @@ TagManager:
   - rock
   - Platform_UP
   - Platform_DOWN
+  - Platform_LEFT
+  - RockDestr
+  - TimerText
   layers:
   - Default
   - TransparentFX

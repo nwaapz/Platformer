@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/4.unity
     guid: 7e5bf24dc45d4294b9577f76344bdafc
+  - enabled: 1
+    path: Assets/Assets/HardcorePlatformer/Scenes/Rooms/5.unity
+    guid: 80466fbabf8481c4894f1d4f5cf19854
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class playerController : MonoBehaviour
 { 
     public float move_x;
+    private float uiMoveInput = 0f; // Track UI button movement direction
     public float speed;
     public float jump_force;
     public Transform groundCheck;
@@ -29,6 +31,13 @@ public class playerController : MonoBehaviour
     public float StartTimeFX;
     public GameObject jump_fx;
     public SpriteRenderer run_fxsp;
+    
+    [Header("Pause Button UI")]
+    public Image pauseButtonImage; // For Unity UI Button (Canvas)
+    public SpriteRenderer pauseButtonRenderer; // For World Space Button (SpriteRenderer)
+    public Sprite pauseSprite;     // Icon shown when game is running (click to pause)
+    public Sprite playSprite;      // Icon shown when game is paused (click to resume)
+    private bool isPaused = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -42,17 +51,31 @@ public class playerController : MonoBehaviour
         animator.SetBool("fall", false);
         animator.SetBool("isJumping", false);
         animator.SetBool("Idle", true);
+        
+        // Initialize button sprite
+        if (pauseButtonImage != null && pauseSprite != null)
+        {
+            pauseButtonImage.sprite = pauseSprite;
+        }
+        else if (pauseButtonRenderer != null && pauseSprite != null)
+        {
+            pauseButtonRenderer.sprite = pauseSprite;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        move_x = Input.GetAxisRaw("Horizontal"); ///taked standart run axis LOCK TO BUTTONS
+        // Combine keyboard and UI input - UI takes priority if active
+        float keyboardInput = Input.GetAxisRaw("Horizontal");
+        move_x = uiMoveInput != 0 ? uiMoveInput : keyboardInput;
         r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y); ///run left right 
     }
 
+    
     public void Update()
     {
+        
         // Countdown jump cooldown
         if (jumpCooldown > 0)
         {
@@ -61,14 +84,19 @@ public class playerController : MonoBehaviour
         
         // Check ground state - ignore if in jump cooldown
         bool overlapCheck = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGrounded);
+
+        print(overlapCheck + "  " + r2d.linearVelocity.y);
+
         if (jumpCooldown > 0)
         {
             isGround = false; // Force not grounded during cooldown
         }
         else
         {
+
             isGround = overlapCheck && r2d.linearVelocity.y <= 0.1f;
         }
+
         
         // Debug only when grounded
         if (isGround)
@@ -182,34 +210,30 @@ public class playerController : MonoBehaviour
         wasGrounded = isGround;
 
     }
-    // button Left UI
+    // button Left UI - mirrors A key behavior
     public void LeftBut(bool runUI) {
-        if (runUI == true)
+        if (runUI)
         {
-            move_x = -1;
-            r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y);
+            uiMoveInput = -1f;
             run = true;
         }
-        else if (runUI == false)
+        else
         {
-            move_x = 0;
-            r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y);
+            uiMoveInput = 0f;
             run = false;
         }
     }
-    // button Right UI
+    // button Right UI - mirrors D key behavior
     public void RightBut(bool runUI)
     {
-        if (runUI == true)
+        if (runUI)
         {
-            move_x = 1;
-            r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y);
+            uiMoveInput = 1f;
             run = true;
         }
-        else if (runUI == false)
+        else
         {
-            move_x = 0;
-            r2d.linearVelocity = new Vector2(move_x * speed, r2d.linearVelocity.y);
+            uiMoveInput = 0f;
             run = false;
         }
     }
@@ -219,7 +243,7 @@ public class playerController : MonoBehaviour
         if (jumpi == true && jumpsQ > 0 && jump == false)
         {
             // Start a new jump - only when not already jumping
-            print("new jump");
+            
             Instantiate(jump_fx, groundCheck.transform.position, groundCheck.transform.rotation);
             jumpTime = 0.25f;
             jump_force = 12;
@@ -236,10 +260,10 @@ public class playerController : MonoBehaviour
             // Continue jump (variable height) - only when already jumping
             if (jumpTimeCounter > 0)
             {
-                /*print("double jump");
-                jump_force = 12;
-                r2d.linearVelocity = Vector2.up * jump_force;
-                jumpTimeCounter -= Time.deltaTime;*/
+                /*  print("double jump");
+                  jump_force = 12;
+                  r2d.linearVelocity = Vector2.up * jump_force;*/
+                jumpTimeCounter -= Time.deltaTime;
             }
             else
             {
@@ -262,6 +286,49 @@ public class playerController : MonoBehaviour
 
     }
 
- 
+    // UI Button - Toggle pause/resume and swap button icon
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        
+        if (isPaused)
+        {
+            // Pause the game
+            if (PlayTimeManager.Instance != null) PlayTimeManager.Instance.PauseTimer();
+
+            // Show play sprite
+            if (pauseButtonImage != null && playSprite != null)
+            {
+                pauseButtonImage.sprite = playSprite;
+            }
+            else if (pauseButtonRenderer != null && playSprite != null)
+            {
+                pauseButtonRenderer.sprite = playSprite;
+            }
+            else
+            {
+                Debug.LogError($"[PauseSystem] Cannot update visual! No valid Image or SpriteRenderer assigned, OR PlaySprite is missing.");
+            }
+        }
+        else
+        {
+            // Resume the game
+            if (PlayTimeManager.Instance != null) PlayTimeManager.Instance.ResumeTimer();
+
+            // Show pause sprite
+            if (pauseButtonImage != null && pauseSprite != null)
+            {
+                pauseButtonImage.sprite = pauseSprite;
+            }
+            else if (pauseButtonRenderer != null && pauseSprite != null)
+            {
+                pauseButtonRenderer.sprite = pauseSprite;
+            }
+            else
+            {
+                Debug.LogError($"[PauseSystem] Cannot update visual! No valid Image or SpriteRenderer assigned, OR PauseSprite is missing.");
+            }
+        }
+    }
 
 }
