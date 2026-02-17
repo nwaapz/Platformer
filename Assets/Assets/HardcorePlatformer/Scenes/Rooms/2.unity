@@ -61888,6 +61888,10 @@ PrefabInstance:
       value: player
       objectReference: {fileID: 0}
     - target: {fileID: 5914871014952343729, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5914871014952343729, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
       objectReference: {fileID: 0}
