@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,9 +18,10 @@ public class go_scrip : MonoBehaviour
     }
     public void Restart() {
         if (LevelManager.Instance != null) {
+            LevelManager.Instance.ResetProgress();
             LevelManager.Instance.LoadLevelByIndex(0);
         } else {
-            SceneManager.LoadScene(2); // Fallback
+            SceneManager.LoadScene("1");
         }
     }
     public void exitMenu() {

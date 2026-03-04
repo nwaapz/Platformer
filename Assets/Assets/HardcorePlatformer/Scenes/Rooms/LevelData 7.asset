@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 07019711458bf3e44aac2db42a543885, type: 3}
-  m_Name: LevelData 6
+  m_Name: LevelData 7
   m_EditorClassIdentifier: Assembly-CSharp::LevelData
-  levelName: level-6
-  sceneName: 6
+  levelName: level-7
+  sceneName: 7
   levelIndex: 0
-  keysRequired: 2
-  nextLevel: {fileID: 11400000, guid: 6c80f126942452645b52548e8f1fde7a, type: 2}
+  keysRequired: 1
+  nextLevel: {fileID: 0}
   levelPreview: {fileID: 0}
   levelDescription: 

@@ -7226,6 +7226,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
+      propertyPath: m_Size.x
+      value: 4.052109
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
+      propertyPath: m_Size.y
+      value: 0.7717066
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.10273981
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079991921300776531, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.3216858
+      objectReference: {fileID: 0}
     - target: {fileID: 9079991921300776540, guid: 02090ab9a42ee7847856d68915fe3163, type: 3}
       propertyPath: m_Name
       value: NeedlesControl
@@ -64778,7 +64794,7 @@ PrefabInstance:
       objectReference: {fileID: 4867192388046137693, guid: 914da6498c55b0b45a8547667d2a682b, type: 3}
     - target: {fileID: 637539564, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
       propertyPath: whatIsGrounded.m_Bits
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 637539565, guid: 19f939b5ac7831548b7bc1f3fb5de40d, type: 3}
       propertyPath: pC
